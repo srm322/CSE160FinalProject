@@ -24,7 +24,7 @@ Works Cited:
 
 ViolentCrimePerCounty:
 
-&nbsp;&nbsp;&nbsp;&nbsp; Data came straight from website, so I may need to rearrange the data.
+&nbsp;&nbsp;&nbsp;&nbsp; Data came straight from website, so I may need to rearrange the data. Cleared data not relevent to 2019 and cleard rows with total state data. 
 
 Works Cited: 
 
@@ -37,3 +37,8 @@ PersIncomePerCounty:
 Works Cited:
 
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; https://www.bea.gov/news/2021/personal-income-county-and-metropolitan-area-2020
+
+
+CombinedData:
+
+&nbsp;&nbsp;&nbsp;&nbsp; When combining ViolentCrimePerCounty and PersIncomePerCounty, there were fewer counties covered in PersIncomePerCounty that was not in ViolentCrimePerCounty. I marked these with NA. S
