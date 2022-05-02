@@ -2,7 +2,7 @@
 
 NumbGunsPerCounty:
 
-&nbsp;&nbsp;&nbsp;&nbsp; Couldn't find data on Washington D.C, so I'm not gonna include that data for this project... I can add it real quick to other datasets if needed. 
+&nbsp;&nbsp;&nbsp;&nbsp; Couldn't find data on Washington D.C, so I'm not gonna include that data for this project... I can add it real quick to other datasets if needed. Recalculated values for combined data since there were more locations covered, like independent cities, covered in the dataset. 
 
 Works Cited
 
