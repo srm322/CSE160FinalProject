@@ -1,4 +1,4 @@
-# CSE160FinalProject
+# CSE160FinalProject 
 
 NumbGunsPerCounty:
 
@@ -41,4 +41,4 @@ Works Cited:
 
 CombinedData:
 
-&nbsp;&nbsp;&nbsp;&nbsp; When combining ViolentCrimePerCounty and PersIncomePerCounty, there were fewer counties covered in PersIncomePerCounty that was not in ViolentCrimePerCounty. I marked these with NA. S
+&nbsp;&nbsp;&nbsp;&nbsp; When combining ViolentCrimePerCounty and PersIncomePerCounty, there were fewer counties covered in PersIncomePerCounty that was not in ViolentCrimePerCounty. I marked these with NA. There is no Data for Washington DC in FirearmFatalities and NumbGunsPerCounty, so may delete (depends on group decision). 
