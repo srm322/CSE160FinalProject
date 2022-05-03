@@ -1,0 +1,71 @@
+---
+title: "CSE160 Project"
+author: "Hamza Ali"
+date: "5/2/2022"
+output: html_document
+---
+
+
+## Setting up the table
+
+```{r}
+library(ggplot2)
+data <- read.csv("https://raw.githubusercontent.com/srm322/CSE160FinalProject/main/CombinedData.csv") #NOTE: MAKE THE GITHUB PUBLIC FOR THIS TO WORK, OR GET THE URL OF THE RAW THING THAT KEEPS CHANGING
+data <- data[,-c(21,22,23,24,25)]
+data <- na.omit(data)
+hist(data$NumFirearmFatalities[data$NumFirearmFatalities < 1000]) #
+data$dangerous <- data$NumFirearmFatalities > 200
+data$extreme_dangerous <- data$NumFirearmFatalities > 2000
+```
+
+## Making the models
+NOTE: THESE ARE THE VARIABLES IN THE TABLE (AIAN,Asian,Black,Hispanic,White were taken out for a lot of NA)
+STNAME,CTYNAME,POPESTIMATE2019,NPOPCHG_2019,BIRTHS2019,DEATHS2019,NATURALINC2019,INTERNATIONALMIG2019,DOMESTICMIG2019,NETMIG2019,RESIDUAL2019,GQESTIMATES2019,RBIRTH2019,RDEATH2019,RNATURALINC2019,RINTERNATIONALMIG2019,RDOMESTICMIG2019,RNETMIG2019,Personal.income..Thousands.of.dollars. ,NumFirearmFatalities,AVGTotalGuns, dangerous, extreme_dangerous
+
+```{r}
+library(caTools)
+library(ROCR)
+library(e1071)
+split <- sample(2, nrow(data), replace = TRUE, prob = c(.8, .2))
+trainData <- data[split == 1,]
+testData <- data[split == 2,]
+#NB
+nb <- naiveBayes(formula = as.factor(dangerous) ~ POPESTIMATE2019 +NPOPCHG_2019 +BIRTHS2019 +NATURALINC2019 +INTERNATIONALMIG2019 +DOMESTICMIG2019 +NETMIG2019 +RESIDUAL2019 +GQESTIMATES2019 +RBIRTH2019 +RDEATH2019 +RNATURALINC2019 +RINTERNATIONALMIG2019 +RDOMESTICMIG2019 +RNETMIG2019 +Personal.income..Thousands.of.dollars. +AVGTotalGuns, data = trainData) #+AIAN +Asian +Black +Hispanic +White
+pNB <- predict(nb, newdata = testData, type = 'raw')
+t1 <- table(data.frame(testData$dangerous, pNB > 0.5))
+curveNB <- prediction(pNB[,2], testData$dangerous)
+performanceNB <- performance(curveNB, 'tpr', 'fpr')
+regressionModel <- glm(dangerous ~ POPESTIMATE2019 +NPOPCHG_2019 +BIRTHS2019 +NATURALINC2019 +INTERNATIONALMIG2019 +DOMESTICMIG2019 +NETMIG2019 +RESIDUAL2019 +GQESTIMATES2019 +RBIRTH2019 +RDEATH2019 +RNATURALINC2019 +RINTERNATIONALMIG2019 +RDOMESTICMIG2019 +RNETMIG2019 +Personal.income..Thousands.of.dollars. +AVGTotalGuns, data = trainData, family = "binomial")
+pred <- predict(regressionModel, testData, type = "response")
+t2 <-table(data.frame(testData$dangerous, pred > .5))
+curveLR <- prediction(pred, testData$dangerous)
+performanceLR <- performance(curveLR, 'tpr', 'fpr')
+plot(performanceNB, col = 1, main = "ROC")
+plot(performanceLR, col = 2, add = T)
+legend(.6,.3,c('Naive Bayes', 'Logistic Regression'), 1:2)
+t2
+```
+
+## Decision Trees
+
+```{r}
+library(rpart)
+library(rpart.plot)
+library(caret)
+#set.seed(4567)
+split <- sample(2, nrow(data), replace = TRUE, prob = c(.8, .2))
+trainData <- data[split == 1,]
+testData <- data[split == 2,]
+tree <- rpart(dangerous ~ POPESTIMATE2019 +NPOPCHG_2019 +BIRTHS2019 +NATURALINC2019 +INTERNATIONALMIG2019 +DOMESTICMIG2019 +NETMIG2019 +RESIDUAL2019 +GQESTIMATES2019 +RBIRTH2019 +RDEATH2019 +RNATURALINC2019 +RINTERNATIONALMIG2019 +RDOMESTICMIG2019 +RNETMIG2019 +Personal.income..Thousands.of.dollars. +AVGTotalGuns, data = trainData, method = "class")
+prp(tree)
+
+# plots regression
+#evaluate tree and forest on training data
+tree.train <- predict(tree, newdata=testData, type="class")
+#confusionMatrix(forest.train, testData$is_successful)
+table.traintree <- table(tree.train, testData$dangerous)
+#calculate accuracies
+accuracy.traintree = sum(diag(table.traintree))/sum(table.traintree) 
+table.traintree
+cat("Tree training accuracy: ", accuracy.traintree, "\n")
+```
