@@ -36,6 +36,7 @@ t1 <- table(data.frame(testData$dangerous, pNB > 0.5))
 curveNB <- prediction(pNB[,2], testData$dangerous)
 performanceNB <- performance(curveNB, 'tpr', 'fpr')
 regressionModel <- glm(dangerous ~ POPESTIMATE2019 +NPOPCHG_2019 +BIRTHS2019 +NATURALINC2019 +INTERNATIONALMIG2019 +DOMESTICMIG2019 +NETMIG2019 +RESIDUAL2019 +GQESTIMATES2019 +RBIRTH2019 +RDEATH2019 +RNATURALINC2019 +RINTERNATIONALMIG2019 +RDOMESTICMIG2019 +RNETMIG2019 +Personal.income..Thousands.of.dollars. +AVGTotalGuns, data = trainData, family = "binomial")
+summary(regressionModel)$coef ##ADDED TO SHOW WHAT THE REGRESSION DID
 pred <- predict(regressionModel, testData, type = "response")
 t2 <-table(data.frame(testData$dangerous, pred > .5))
 curveLR <- prediction(pred, testData$dangerous)
