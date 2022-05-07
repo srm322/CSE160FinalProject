@@ -1,5 +1,8 @@
 # CSE160FinalProject 
 
+Replication:
+To replicate the results, it would be imperative to collect the same type of data which includes number of firearm deaths per county, number of guns owned per county, number of births per county, and average income per county. Split the data into training and test data with 80% of the data going to the training and 20% of the data going to the test. Then using the CaTools, ROCR, and e1071 libraries build a ROC curve that plots logistic regression as well as a naive bayes classifier. Afterwards utilize the rpart, rpart.plot, and caret libraries to build a decision tree model using the same training and test data as before. Lastly, run a 10-fold cross validation Naive Bayes classifier using the e1071 library. Analyze the results of each model and check for overfitting.
+
 NumbGunsPerCounty:
 
 &nbsp;&nbsp;&nbsp;&nbsp; Couldn't find data on Washington D.C, so I'm not gonna include that data for this project... I can add it real quick to other datasets if needed. Recalculated values for combined data since there were more locations covered, like independent cities, covered in the dataset. 
